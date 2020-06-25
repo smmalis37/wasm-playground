@@ -1,4 +1,4 @@
-import { Universe, Cell } from "wasm-playground";
+import { Universe } from "wasm-playground";
 import { memory } from "wasm-playground/wasm_playground_bg"
 
 const width = 64;
@@ -10,8 +10,6 @@ const universe = Universe.new(width, height);
 const ctx = canvas.getContext('2d');
 
 const GRID_COLOR = "#CCCCCC";
-const DEAD_COLOR = "#FFFFFF";
-const ALIVE_COLOR = "#000000";
 
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
@@ -41,17 +39,16 @@ const drawGrid = () => {
 
 const drawCells = () => {
     const cellsPtr = universe.cells();
-    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+    const cells = new Uint32Array(memory.buffer, cellsPtr, width * height);
 
     ctx.beginPath();
 
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
             const idx = getIndex(row, col);
+            const cell = cells[idx];
 
-            ctx.fillStyle = cells[idx] === Cell.Dead
-                ? DEAD_COLOR
-                : ALIVE_COLOR;
+            ctx.fillStyle = "#" + cell.toString(16).padStart(6, "0");
 
             ctx.fillRect(
                 col * (CELL_SIZE + 1) + 1,
