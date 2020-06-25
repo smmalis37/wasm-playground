@@ -28,13 +28,13 @@ pub struct Universe {
     width: u32,
     height: u32,
     cells: Vec<Cell>,
+    buffer: Vec<Cell>,
 }
 
 #[wasm_bindgen]
 impl Universe {
-    #[allow(clippy::new_without_default)]
     pub fn new(width: u32, height: u32) -> Self {
-        let cells = (0..width * height)
+        let cells: Vec<Cell> = (0..width * height)
             .map(|i| {
                 if i % 2 == 0 || i % 7 == 0 {
                     ALIVE_COLOR
@@ -43,17 +43,16 @@ impl Universe {
                 }
             })
             .collect();
-
+        let buffer = cells.clone();
         Universe {
             width,
             height,
             cells,
+            buffer,
         }
     }
 
     pub fn tick(&mut self) {
-        let mut next = self.cells.clone();
-
         for row in 0..self.height {
             for col in 0..self.width {
                 let idx = self.get_index(row, col);
@@ -77,11 +76,11 @@ impl Universe {
                     (otherwise, _) => otherwise,
                 };
 
-                next[idx] = next_cell;
+                self.buffer[idx] = next_cell;
             }
         }
 
-        self.cells = next;
+        std::mem::swap(&mut self.buffer, &mut self.cells);
     }
 
     pub fn cells(&self) -> *const Cell {
