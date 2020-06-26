@@ -13,14 +13,14 @@ const ALIVE_COLOR: Cell = Cell {
     red: 0,
     green: 0,
     blue: 0,
-    alpha: 0,
+    alpha: 255,
 };
 
 const DEAD_COLOR: Cell = Cell {
     red: 255,
     green: 255,
     blue: 255,
-    alpha: 0,
+    alpha: 255,
 };
 
 #[wasm_bindgen]
