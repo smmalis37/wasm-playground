@@ -36,11 +36,18 @@ impl Universe {
     }
 
     pub fn tick(&mut self) {
-        for row in 0..self.height - 1 {
+        for row in 1..self.height {
             for col in 0..self.width {
-                let i = self.get_index(row, col);
-                let r = if self.rng.gen_ratio(3, 4) { 1 } else { 0 };
-                self.data[i] = self.data[self.get_index(row + 1, col)].saturating_sub(r);
+                let spread_rand = [0usize, 1, 2].choose(&mut self.rng).unwrap();
+                let decrease_rand = if self.rng.gen() { 1 } else { 0 };
+
+                let src = self.get_index(row, col);
+                let dst = self.get_index(
+                    row - 1,
+                    std::cmp::min(self.width - 1, (col + spread_rand).saturating_sub(1)),
+                );
+
+                self.data[dst] = self.data[src].saturating_sub(decrease_rand);
             }
         }
 
