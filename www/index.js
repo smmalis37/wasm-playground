@@ -1,4 +1,4 @@
-import { Universe } from "wasm-playground";
+import { Universe, ColorMode } from "wasm-playground";
 import { memory } from "wasm-playground/wasm_playground_bg"
 
 const width = 256;
@@ -17,7 +17,8 @@ const height_slider = document.getElementById("height_param");
 const spread_slider = document.getElementById("spread_param");
 
 const renderLoop = () => {
-    universe.tick(spread_slider.value, height_slider.value);
+    const color = document.querySelector('input[name="color"]:checked').value;
+    universe.tick(spread_slider.value, height_slider.value, ColorMode[color]);
     ctx.putImageData(image, 0, 0);
     requestAnimationFrame(renderLoop);
 };

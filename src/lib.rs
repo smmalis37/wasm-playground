@@ -14,6 +14,14 @@ pub struct Universe {
 }
 
 #[wasm_bindgen]
+pub enum ColorMode {
+    Red,
+    Green,
+    Blue,
+    Purple,
+}
+
+#[wasm_bindgen]
 impl Universe {
     pub fn new(width: usize, height: usize) -> Self {
         let len = (width * height) as usize;
@@ -35,7 +43,7 @@ impl Universe {
         }
     }
 
-    pub fn tick(&mut self, spread_factor: f64, height_factor: f64) {
+    pub fn tick(&mut self, spread_factor: f64, height_factor: f64, color: ColorMode) {
         for row in 1..self.height {
             for col in 0..self.width {
                 let spread_rand = if self.rng.gen_bool(spread_factor) {
@@ -60,12 +68,33 @@ impl Universe {
             }
         }
 
-        self.compute_texture();
+        self.compute_texture(color);
     }
 
-    fn compute_texture(&mut self) {
+    fn compute_texture(&mut self, color: ColorMode) {
         for i in 0..self.data.len() {
-            self.texture[i] = FIRE_PROGRESS[self.data[i]];
+            let mut val = FIRE_PROGRESS[self.data[i]];
+
+            use std::mem::swap;
+            match color {
+                ColorMode::Red => {}
+                ColorMode::Green => {
+                    let tmp = val.red;
+                    val.red = val.blue;
+                    val.blue = val.green;
+                    val.green = tmp;
+                }
+                ColorMode::Blue => {
+                    swap(&mut val.red, &mut val.blue);
+                }
+                ColorMode::Purple => {
+                    let tmp = val.red;
+                    val.red = val.green;
+                    val.green = val.blue;
+                    val.blue = tmp;
+                }
+            };
+            self.texture[i] = val;
         }
     }
 

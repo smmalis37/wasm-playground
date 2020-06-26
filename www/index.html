@@ -22,7 +22,7 @@
 
     #inputs {
       display: grid;
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 1fr 1fr;
       margin: 10px;
       text-align: right;
     }
@@ -33,6 +33,10 @@
 
     #inputs input {
       margin: 0
+    }
+
+    #inputs span label {
+      margin-right: 2px;
     }
   </style>
 </head>
@@ -49,6 +53,20 @@
     <label for="spread_param">Spread Factor:</label>
     <input id="spread_param" type="range" min="0.0" max="1.0" value="0.75" step="0.01">
 
+    <label for="color">Color Mode:</label>
+    <span>
+      <label for="red">Red</label>
+      <input name="color" id="red" type="radio" value="Red">
+      &nbsp;&nbsp;
+      <label for="green">Green</label>
+      <input name="color" id="green" type="radio" value="Green">
+      &nbsp;&nbsp;
+      <label for="blue">Blue</label>
+      <input name="color" id="blue" type="radio" value="Blue">
+      &nbsp;&nbsp;
+      <label for="purple">Purple</label>
+      <input name="color" id="purple" type="radio" value="Purple">
+    </span>
   </div>
 </body>
 
