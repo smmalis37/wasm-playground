@@ -17,6 +17,7 @@
       align-items: center;
       justify-content: center;
       background-color: black;
+      color: white;
     }
   </style>
 </head>
@@ -25,6 +26,12 @@
   <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
   <canvas style="width: 80%;height:80%;" id="game-of-life-canvas"></canvas>
   <script src="./bootstrap.js"></script>
+  <div id="inputs">
+    <label for="height_param">Height Decay Factor:</label>
+    <input id="height_param" type="range" min="0.0" max="1.0" value="0.5" step="0.01">
+    <label for="spread_param">Spread Factor:</label>
+    <input id="spread_param" type="range" min="0.0" max="1.0" value="0.75" step="0.01">
+  </div>
 </body>
 
 </html>
