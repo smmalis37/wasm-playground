@@ -1,8 +1,8 @@
 import { Universe } from "wasm-playground";
 import { memory } from "wasm-playground/wasm_playground_bg"
 
-const width = 1024;
-const height = 512;
+const width = 512;
+const height = 64;
 
 const canvas = document.getElementById("game-of-life-canvas");
 canvas.height = height;

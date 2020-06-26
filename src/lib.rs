@@ -1,3 +1,4 @@
+use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
 mod color_scale;
@@ -9,6 +10,7 @@ pub struct Universe {
     height: usize,
     data: Vec<usize>,
     texture: Vec<Cell>,
+    rng: SmallRng,
 }
 
 #[wasm_bindgen]
@@ -29,6 +31,7 @@ impl Universe {
             height,
             data,
             texture,
+            rng: SmallRng::from_entropy(),
         }
     }
 
@@ -36,7 +39,8 @@ impl Universe {
         for row in 0..self.height - 1 {
             for col in 0..self.width {
                 let i = self.get_index(row, col);
-                self.data[i] = self.data[self.get_index(row + 1, col)].saturating_sub(1);
+                let r = if self.rng.gen_ratio(3, 4) { 1 } else { 0 };
+                self.data[i] = self.data[self.get_index(row + 1, col)].saturating_sub(r);
             }
         }
 
