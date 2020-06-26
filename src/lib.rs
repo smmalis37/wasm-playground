@@ -38,7 +38,7 @@ impl Universe {
     pub fn tick(&mut self) {
         for row in 1..self.height {
             for col in 0..self.width {
-                let spread_rand = [0usize, 1, 2].choose(&mut self.rng).unwrap();
+                let spread_rand = [0usize, 1, 2, 3].choose(&mut self.rng).unwrap();
                 let decrease_rand = if self.rng.gen() { 1 } else { 0 };
 
                 let src = self.get_index(row, col);
