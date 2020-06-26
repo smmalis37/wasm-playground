@@ -23,6 +23,8 @@ pub enum ColorMode {
     Green,
     Blue,
     Purple,
+    Pink,
+    OtherGreen,
 }
 
 #[wasm_bindgen]
@@ -96,6 +98,12 @@ impl Universe {
                     val.red = val.green;
                     val.green = val.blue;
                     val.blue = tmp;
+                }
+                ColorMode::Pink => {
+                    swap(&mut val.blue, &mut val.green);
+                }
+                ColorMode::OtherGreen => {
+                    swap(&mut val.red, &mut val.green);
                 }
             };
             self.texture[i] = val;
