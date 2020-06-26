@@ -35,11 +35,20 @@ impl Universe {
         }
     }
 
-    pub fn tick(&mut self) {
+    pub fn tick(&mut self, spread_factor: f64, height_factor: f64) {
         for row in 1..self.height {
             for col in 0..self.width {
-                let spread_rand = [0usize, 1, 2, 3].choose(&mut self.rng).unwrap();
-                let decrease_rand = if self.rng.gen() { 1 } else { 0 };
+                let spread_rand = if self.rng.gen_bool(spread_factor) {
+                    *[0usize, 2, 3].choose(&mut self.rng).unwrap()
+                } else {
+                    1
+                };
+
+                let decrease_rand = if self.rng.gen_bool(height_factor) {
+                    1
+                } else {
+                    0
+                };
 
                 let src = self.get_index(row, col);
                 let dst = self.get_index(
