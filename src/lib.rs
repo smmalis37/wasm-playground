@@ -64,8 +64,10 @@ impl Universe {
                     0
                 };
 
-                let src = self.get_index(row, col);
-                let dst = self.get_index(
+                let get_index = |row, column| row * self.width + column;
+
+                let src = get_index(row, col);
+                let dst = get_index(
                     row - 1,
                     std::cmp::min(self.width - 1, (col + spread_rand).saturating_sub(1)),
                 );
@@ -90,31 +92,28 @@ impl Universe {
                     val.blue = val.green;
                     val.green = tmp;
                 }
-                ColorMode::Blue => {
-                    swap(&mut val.red, &mut val.blue);
-                }
                 ColorMode::Purple => {
                     let tmp = val.red;
                     val.red = val.green;
                     val.green = val.blue;
                     val.blue = tmp;
                 }
-                ColorMode::Pink => {
-                    swap(&mut val.blue, &mut val.green);
+                ColorMode::Blue => {
+                    swap(&mut val.red, &mut val.blue);
                 }
                 ColorMode::OtherGreen => {
                     swap(&mut val.red, &mut val.green);
                 }
+                ColorMode::Pink => {
+                    swap(&mut val.blue, &mut val.green);
+                }
             };
+
             self.texture[i] = val;
         }
     }
 
     pub fn texture(&self) -> *const Cell {
         self.texture.as_ptr()
-    }
-
-    fn get_index(&self, row: usize, column: usize) -> usize {
-        (row * self.width + column) as usize
     }
 }
