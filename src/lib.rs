@@ -13,7 +13,7 @@ pub struct Universe {
     width: usize,
     height: usize,
     data: Vec<usize>,
-    texture: Vec<Cell>,
+    texture: Vec<Pixel>,
     rng: SmallRng,
 }
 
@@ -113,7 +113,7 @@ impl Universe {
         }
     }
 
-    pub fn texture(&self) -> *const Cell {
+    pub fn texture(&self) -> *const Pixel {
         self.texture.as_ptr()
     }
 }

@@ -1,6 +1,6 @@
 #[repr(C)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct Cell {
+pub struct Pixel {
     pub red: u8,
     pub green: u8,
     pub blue: u8,
@@ -9,7 +9,7 @@ pub struct Cell {
 
 macro_rules! rgb {
     ( $r:expr, $g:expr, $b:expr ) => {
-        Cell {
+        Pixel {
             red: $r,
             green: $g,
             blue: $b,
@@ -18,7 +18,7 @@ macro_rules! rgb {
     };
 }
 
-pub const FIRE_PROGRESS: [Cell; 38] = [
+pub const FIRE_PROGRESS: [Pixel; 38] = [
     rgb!(0x00, 0x00, 0x00),
     rgb!(0x07, 0x07, 0x07),
     rgb!(0x1F, 0x07, 0x07),
