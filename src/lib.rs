@@ -4,7 +4,6 @@ use wasm_bindgen::prelude::*;
 mod color_scale;
 use color_scale::*;
 
-// Use `wee_alloc` as the global allocator.
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
