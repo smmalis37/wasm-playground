@@ -16,8 +16,10 @@ const image = new ImageData(new Uint8ClampedArray(memory.buffer, universe.textur
 const height_slider = document.getElementById("height_param");
 const spread_slider = document.getElementById("spread_param");
 
+var color = document.querySelector('input[name="color"]:checked').value;
+document.getElementsByName("color").forEach(function (e) { e.oninput = function () { color = this.value } });
+
 const renderLoop = () => {
-    const color = document.querySelector('input[name="color"]:checked').value;
     universe.tick(spread_slider.value, height_slider.value, ColorMode[color]);
     ctx.putImageData(image, 0, 0);
     requestAnimationFrame(renderLoop);

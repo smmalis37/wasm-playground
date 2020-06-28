@@ -19,11 +19,11 @@ pub struct Universe {
 #[wasm_bindgen]
 pub enum ColorMode {
     Red,
-    Green,
+    YellowGreen,
+    BlueGreen,
     Blue,
     Purple,
     Pink,
-    OtherGreen,
 }
 
 #[wasm_bindgen]
@@ -85,7 +85,7 @@ impl Universe {
             use std::mem::swap;
             match color {
                 ColorMode::Red => {}
-                ColorMode::Green => {
+                ColorMode::BlueGreen => {
                     let tmp = val.red;
                     val.red = val.blue;
                     val.blue = val.green;
@@ -100,7 +100,7 @@ impl Universe {
                 ColorMode::Blue => {
                     swap(&mut val.red, &mut val.blue);
                 }
-                ColorMode::OtherGreen => {
+                ColorMode::YellowGreen => {
                     swap(&mut val.red, &mut val.green);
                 }
                 ColorMode::Pink => {
