@@ -17,9 +17,6 @@ jobs:
     - name: Install wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     
-    - name: Install Node.js
-      uses: actions/setup-node@v1
-    
     - name: Build Rust
       run: wasm-pack build
     
