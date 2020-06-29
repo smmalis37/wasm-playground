@@ -17,6 +17,7 @@ pub struct Universe {
 }
 
 #[wasm_bindgen]
+#[derive(Copy, Clone)]
 pub enum ColorMode {
     Red,
     YellowGreen,
@@ -29,7 +30,7 @@ pub enum ColorMode {
 #[wasm_bindgen]
 impl Universe {
     pub fn new(width: usize, height: usize) -> Self {
-        let len = (width * height) as usize;
+        let len = width * height;
 
         use std::iter::repeat;
         let data: Vec<_> = repeat(0)
@@ -39,7 +40,7 @@ impl Universe {
 
         let texture = data.iter().map(|&x| FIRE_PROGRESS[x]).collect();
 
-        Universe {
+        Self {
             width,
             height,
             data,
@@ -52,7 +53,7 @@ impl Universe {
         for row in 1..self.height {
             for col in 0..self.width {
                 let spread_rand = if self.rng.gen_bool(spread_factor) {
-                    *[0usize, 2, 3].choose(&mut self.rng).unwrap()
+                    *[0_usize, 2, 3].choose(&mut self.rng).unwrap_or(&1)
                 } else {
                     1
                 };
