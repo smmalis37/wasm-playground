@@ -1,6 +1,6 @@
 # wasm-playground
 
-Just messing around with Rust and wasm. Code based on https://rustwasm.github.io/docs/book/game-of-life and https://fabiensanglard.net/doom_fire_psx/.
+Just messing around with Rust and wasm. Code based on https://rustwasm.github.io/docs/book/ and https://fabiensanglard.net/doom_fire_psx/.
 
 ### Build 
 ```
