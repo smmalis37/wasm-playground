@@ -8,7 +8,7 @@ use color_scale::*;
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
-pub struct Universe {
+pub struct Fire {
     width: usize,
     height: usize,
     data: Vec<usize>,
@@ -28,7 +28,7 @@ pub enum ColorMode {
 }
 
 #[wasm_bindgen]
-impl Universe {
+impl Fire {
     pub fn new(width: usize, height: usize) -> Self {
         let len = width * height;
 
