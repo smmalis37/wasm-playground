@@ -55,29 +55,35 @@
 /******/ 		"../pkg/wasm_playground_bg.wasm": function() {
 /******/ 			return {
 /******/ 				"./wasm_playground_bg.js": {
-/******/ 					"__wbg_self_1b7a39e3a92c949c": function() {
-/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_self_1b7a39e3a92c949c"]();
+/******/ 					"__wbg_self_1c83eb4471d9eb9b": function() {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_self_1c83eb4471d9eb9b"]();
 /******/ 					},
 /******/ 					"__wbindgen_object_drop_ref": function(p0i32) {
 /******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbindgen_object_drop_ref"](p0i32);
 /******/ 					},
-/******/ 					"__wbg_require_604837428532a733": function(p0i32,p1i32) {
-/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_require_604837428532a733"](p0i32,p1i32);
+/******/ 					"__wbg_require_5b2b5b594d809d9f": function(p0i32,p1i32,p2i32) {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_require_5b2b5b594d809d9f"](p0i32,p1i32,p2i32);
 /******/ 					},
-/******/ 					"__wbg_crypto_968f1772287e2df0": function(p0i32) {
-/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_crypto_968f1772287e2df0"](p0i32);
+/******/ 					"__wbg_crypto_c12f14e810edcaa2": function(p0i32) {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_crypto_c12f14e810edcaa2"](p0i32);
+/******/ 					},
+/******/ 					"__wbg_msCrypto_679be765111ba775": function(p0i32) {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_msCrypto_679be765111ba775"](p0i32);
 /******/ 					},
 /******/ 					"__wbindgen_is_undefined": function(p0i32) {
 /******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbindgen_is_undefined"](p0i32);
 /******/ 					},
-/******/ 					"__wbg_getRandomValues_a3d34b4fee3c2869": function(p0i32) {
-/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_getRandomValues_a3d34b4fee3c2869"](p0i32);
+/******/ 					"__wbg_getRandomValues_05a60bf171bfc2be": function(p0i32) {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_getRandomValues_05a60bf171bfc2be"](p0i32);
 /******/ 					},
-/******/ 					"__wbg_randomFillSync_d5bd2d655fdf256a": function(p0i32,p1i32,p2i32) {
-/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_randomFillSync_d5bd2d655fdf256a"](p0i32,p1i32,p2i32);
+/******/ 					"__wbg_getRandomValues_3ac1b33c90b52596": function(p0i32,p1i32,p2i32) {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_getRandomValues_3ac1b33c90b52596"](p0i32,p1i32,p2i32);
 /******/ 					},
-/******/ 					"__wbg_getRandomValues_f5e14ab7ac8e995d": function(p0i32,p1i32,p2i32) {
-/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_getRandomValues_f5e14ab7ac8e995d"](p0i32,p1i32,p2i32);
+/******/ 					"__wbg_randomFillSync_6f956029658662ec": function(p0i32,p1i32,p2i32) {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_randomFillSync_6f956029658662ec"](p0i32,p1i32,p2i32);
+/******/ 					},
+/******/ 					"__wbg_static_accessor_MODULE_abf5ae284bffdf45": function() {
+/******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbg_static_accessor_MODULE_abf5ae284bffdf45"]();
 /******/ 					},
 /******/ 					"__wbindgen_throw": function(p0i32,p1i32) {
 /******/ 						return installedModules["../pkg/wasm_playground_bg.js"].exports["__wbindgen_throw"](p0i32,p1i32);
@@ -183,7 +189,7 @@
 /******/ 				promises.push(installedWasmModuleData);
 /******/ 			else {
 /******/ 				var importObject = wasmImportObjects[wasmModuleId]();
-/******/ 				var req = fetch(__webpack_require__.p + "" + {"../pkg/wasm_playground_bg.wasm":"2b56aa2566282cdabb2f"}[wasmModuleId] + ".module.wasm");
+/******/ 				var req = fetch(__webpack_require__.p + "" + {"../pkg/wasm_playground_bg.wasm":"8604340445972b82a730"}[wasmModuleId] + ".module.wasm");
 /******/ 				var promise;
 /******/ 				if(importObject instanceof Promise && typeof WebAssembly.compileStreaming === 'function') {
 /******/ 					promise = Promise.all([WebAssembly.compileStreaming(req), importObject]).then(function(items) {
