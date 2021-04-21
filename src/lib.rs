@@ -7,12 +7,14 @@ use color_scale::*;
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
+const WIDTH: usize = 256;
+const HEIGHT: usize = 112;
+const LEN: usize = WIDTH * HEIGHT;
+
 #[wasm_bindgen]
 pub struct Fire {
-    width: usize,
-    height: usize,
-    data: Vec<usize>,
-    texture: Vec<Pixel>,
+    data: [usize; LEN],
+    texture: [Pixel; LEN],
     rng: SmallRng,
 }
 
@@ -27,22 +29,18 @@ pub enum ColorMode {
     Pink,
 }
 
+#[allow(clippy::len_without_is_empty, clippy::clippy::new_without_default)]
 #[wasm_bindgen]
 impl Fire {
-    pub fn new(width: usize, height: usize) -> Self {
-        let len = width * height;
+    #[wasm_bindgen(constructor)]
+    pub fn new() -> Self {
+        let mut data = [0; LEN];
+        data[LEN - WIDTH..].fill(FIRE_PROGRESS.len() - 1);
 
-        use std::iter::repeat;
-        let data: Vec<_> = repeat(0)
-            .take(len - width)
-            .chain(repeat(FIRE_PROGRESS.len() - 1).take(width))
-            .collect();
-
-        let texture = data.iter().map(|&x| FIRE_PROGRESS[x]).collect();
+        let mut texture = [FIRE_PROGRESS[0]; LEN];
+        texture[LEN - WIDTH..].fill(*FIRE_PROGRESS.last().unwrap());
 
         Self {
-            width,
-            height,
             data,
             texture,
             rng: SmallRng::from_entropy(),
@@ -50,8 +48,8 @@ impl Fire {
     }
 
     pub fn tick(&mut self, spread_factor: f64, height_factor: f64, color: ColorMode) {
-        for row in 1..self.height {
-            for col in 0..self.width {
+        for row in 1..HEIGHT {
+            for col in 0..WIDTH {
                 let spread_rand = if self.rng.gen_bool(spread_factor) {
                     *[0_usize, 2, 3].choose(&mut self.rng).unwrap_or(&1)
                 } else {
@@ -64,12 +62,12 @@ impl Fire {
                     0
                 };
 
-                let get_index = |row, column| row * self.width + column;
+                let get_index = |row, column| row * WIDTH + column;
 
                 let src = get_index(row, col);
                 let dst = get_index(
                     row - 1,
-                    std::cmp::min(self.width - 1, (col + spread_rand).saturating_sub(1)),
+                    core::cmp::min(WIDTH - 1, (col + spread_rand).saturating_sub(1)),
                 );
 
                 self.data[dst] = self.data[src].saturating_sub(decrease_rand);
@@ -83,7 +81,7 @@ impl Fire {
         for i in 0..self.data.len() {
             let mut val = FIRE_PROGRESS[self.data[i]];
 
-            use std::mem::swap;
+            use core::mem::swap;
             match color {
                 ColorMode::Red => {}
                 ColorMode::BlueGreen => {
@@ -113,7 +111,23 @@ impl Fire {
         }
     }
 
+    #[wasm_bindgen(getter)]
     pub fn texture(&self) -> *const Pixel {
         self.texture.as_ptr()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn width(&self) -> usize {
+        WIDTH
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn height(&self) -> usize {
+        HEIGHT
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn len(&self) -> usize {
+        LEN
     }
 }
