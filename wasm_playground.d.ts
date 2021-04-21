@@ -31,3 +31,24 @@ export class Fire {
 */
   texture(): number;
 }
+
+export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
+
+export interface InitOutput {
+  readonly memory: WebAssembly.Memory;
+  readonly __wbg_fire_free: (a: number) => void;
+  readonly fire_new: (a: number, b: number) => number;
+  readonly fire_tick: (a: number, b: number, c: number, d: number) => void;
+  readonly fire_texture: (a: number) => number;
+  readonly __wbindgen_exn_store: (a: number) => void;
+}
+
+/**
+* If `module_or_path` is {RequestInfo} or {URL}, makes a request and
+* for everything else, calls `WebAssembly.instantiate` directly.
+*
+* @param {InitInput | Promise<InitInput>} module_or_path
+*
+* @returns {Promise<InitOutput>}
+*/
+export default function init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
