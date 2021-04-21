@@ -5,15 +5,16 @@ async function run() {
 
     const width = 256;
     const height = 112;
+    const len = width * height;
 
     const canvas = document.getElementById("fire-canvas");
-    canvas.height = height;
     canvas.width = width;
+    canvas.height = height;
 
     const ctx = canvas.getContext('2d');
 
     const fire = Fire.new(width, height);
-    const image = new ImageData(new Uint8ClampedArray(wasm.memory.buffer, fire.texture(), 4 * width * height), width, height);
+    const image = new ImageData(new Uint8ClampedArray(wasm.memory.buffer, fire.texture(), 4 * len), width, height);
 
     const height_slider = document.getElementById("height_param");
     const spread_slider = document.getElementById("spread_param");
