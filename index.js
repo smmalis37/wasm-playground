@@ -1,7 +1,7 @@
 import init, { Fire, ColorMode } from "./wasm_playground.js";
 
 async function run() {
-    const i = await init();
+    const wasm = await init();
 
     const width = 256;
     const height = 112;
@@ -13,7 +13,7 @@ async function run() {
     const ctx = canvas.getContext('2d');
 
     const fire = Fire.new(width, height);
-    const image = new ImageData(new Uint8ClampedArray(i.memory.buffer, fire.texture(), 4 * width * height), width, height);
+    const image = new ImageData(new Uint8ClampedArray(wasm.memory.buffer, fire.texture(), 4 * width * height), width, height);
 
     const height_slider = document.getElementById("height_param");
     const spread_slider = document.getElementById("spread_param");
