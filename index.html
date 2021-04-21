@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Steve's wasm playground</title>
+  <style>
+    body {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: black;
+      color: white;
+    }
+
+    #inputs {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      margin: 10px;
+      text-align: right;
+    }
+
+    #inputs label {
+      margin-right: 10px;
+    }
+
+    #inputs input {
+      margin: 0
+    }
+
+    #inputs span label {
+      margin-right: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
+  <canvas style="width: 80%;height:80%;" id="fire-canvas"></canvas>
+  <script src="./bootstrap.js"></script>
+  <div id="inputs">
+
+    <label for="height_param">Height Decay Factor:</label>
+    <input id="height_param" type="range" min="0.0" max="1.0" value="0.5" step="0.001">
+
+    <label for="spread_param">Spread Factor:</label>
+    <input id="spread_param" type="range" min="0.0" max="1.0" value="0.75" step="0.001">
+
+    <label for="color">Color Mode:</label>
+    <span>
+      <label for="red">Red</label>
+      <input name="color" id="red" type="radio" value="Red" checked="true">
+      &nbsp;&nbsp;
+      <label for="yellowgreen">Yellow-Green</label>
+      <input name="color" id="yellowgreen" type="radio" value="YellowGreen">
+      &nbsp;&nbsp;
+      <label for="bluegreen">Blue-Green</label>
+      <input name="color" id="bluegreen" type="radio" value="BlueGreen">
+      &nbsp;&nbsp;
+      <label for="blue">Blue</label>
+      <input name="color" id="blue" type="radio" value="Blue">
+      &nbsp;&nbsp;
+      <label for="purple">Purple</label>
+      <input name="color" id="purple" type="radio" value="Purple">
+      &nbsp;&nbsp;
+      <label for="pink">Pink</label>
+      <input name="color" id="pink" type="radio" value="Pink">
+    </span>
+  </div>
+</body>
+
+</html>
