@@ -1,28 +1,34 @@
-import { Fire, ColorMode } from "wasm-playground";
-import { memory } from "wasm-playground/wasm_playground_bg"
+import init, { Fire, ColorMode } from "./wasm_playground.js";
 
-const width = 256;
-const height = 112;
+async function run() {
+    const wasm = await init();
 
-const canvas = document.getElementById("fire-canvas");
-canvas.height = height;
-canvas.width = width;
+    const width = 256;
+    const height = 112;
+    const len = width * height;
 
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById("fire-canvas");
+    canvas.width = width;
+    canvas.height = height;
 
-const fire = Fire.new(width, height);
-const image = new ImageData(new Uint8ClampedArray(memory.buffer, fire.texture(), 4 * width * height), width, height);
+    const ctx = canvas.getContext('2d');
 
-const height_slider = document.getElementById("height_param");
-const spread_slider = document.getElementById("spread_param");
+    const fire = Fire.new(width, height);
+    const image = new ImageData(new Uint8ClampedArray(wasm.memory.buffer, fire.texture(), 4 * len), width, height);
 
-var color = document.querySelector('input[name="color"]:checked').value;
-document.getElementsByName("color").forEach(function (e) { e.oninput = function () { color = this.value } });
+    const height_slider = document.getElementById("height_param");
+    const spread_slider = document.getElementById("spread_param");
 
-const renderLoop = () => {
-    fire.tick(spread_slider.value, height_slider.value, ColorMode[color]);
-    ctx.putImageData(image, 0, 0);
+    var color = document.querySelector('input[name="color"]:checked').value;
+    document.getElementsByName("color").forEach(function (e) { e.oninput = function () { color = this.value } });
+
+    const renderLoop = () => {
+        fire.tick(spread_slider.value, height_slider.value, ColorMode[color]);
+        ctx.putImageData(image, 0, 0);
+        requestAnimationFrame(renderLoop);
+    };
+
     requestAnimationFrame(renderLoop);
-};
+}
 
-requestAnimationFrame(renderLoop);
+run();

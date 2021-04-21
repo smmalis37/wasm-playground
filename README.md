@@ -4,11 +4,6 @@ Just messing around with Rust and wasm. Code based on https://rustwasm.github.io
 
 ### Build 
 ```
-wasm-pack build
-```
-
-### Run locally
-```
-cd www
-npm run start
+wasm-pack build --target web
+cp www/* pkg/
 ```
