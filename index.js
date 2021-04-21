@@ -1,5 +1,5 @@
-import { Fire, ColorMode } from "./wasm_playground.js";
-import { memory } from "./wasm_playground_bg.js"
+import { Fire, ColorMode } from "./wasm_playground";
+import { memory } from "./wasm_playground_bg";
 
 const width = 256;
 const height = 112;
