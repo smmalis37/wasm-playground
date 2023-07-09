@@ -1,3 +1,5 @@
+#![no_std]
+
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
@@ -29,7 +31,7 @@ pub enum ColorMode {
     Pink,
 }
 
-#[allow(clippy::len_without_is_empty, clippy::clippy::new_without_default)]
+#[allow(clippy::len_without_is_empty, clippy::new_without_default)]
 #[wasm_bindgen]
 impl Fire {
     #[wasm_bindgen(constructor)]
