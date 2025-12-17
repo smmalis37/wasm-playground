@@ -18,6 +18,7 @@ getrandom = { version = "0.3", default-features = false, features = [
 ] }
 
 [profile.release]
+codegen-units = 1
 opt-level = "z"
 lto = true
 panic = "abort"

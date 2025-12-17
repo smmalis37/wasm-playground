@@ -22,10 +22,14 @@ const LEN: usize = WIDTH * HEIGHT;
 
 #[wasm_bindgen]
 pub struct Fire {
-    data: [usize; LEN],
+    data: [u8; LEN],
     texture: [Pixel; LEN],
     rng: SmallRng,
 }
+
+const _: () = {
+    assert!(FIRE_PROGRESS.len() <= u8::MAX as usize);
+};
 
 #[wasm_bindgen]
 #[derive(Copy, Clone)]
@@ -44,7 +48,7 @@ impl Fire {
     #[wasm_bindgen(constructor)]
     pub fn new() -> Self {
         let mut data = [0; LEN];
-        data[LEN - WIDTH..].fill(FIRE_PROGRESS.len() - 1);
+        data[LEN - WIDTH..].fill(FIRE_PROGRESS.len() as u8 - 1);
 
         let mut texture = [FIRE_PROGRESS[0]; LEN];
         texture[LEN - WIDTH..].fill(*FIRE_PROGRESS.last().unwrap());
@@ -87,8 +91,8 @@ impl Fire {
     }
 
     fn compute_texture(&mut self, color: ColorMode) {
-        for i in 0..self.data.len() {
-            let mut val = FIRE_PROGRESS[self.data[i]];
+        for i in 0..LEN {
+            let mut val = FIRE_PROGRESS[self.data[i] as usize];
 
             use core::mem::swap;
             match color {
