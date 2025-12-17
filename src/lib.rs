@@ -7,7 +7,14 @@ mod color_scale;
 use color_scale::*;
 
 #[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+static ALLOC: lol_alloc::AssumeSingleThreaded<lol_alloc::FreeListAllocator> =
+    unsafe { lol_alloc::AssumeSingleThreaded::new(lol_alloc::FreeListAllocator::new()) };
+
+#[cfg_attr(not(test), panic_handler)]
+#[cfg_attr(test, expect(dead_code))]
+fn panic_handler(_info: &core::panic::PanicInfo) -> ! {
+    core::arch::wasm32::unreachable()
+}
 
 const WIDTH: usize = 256;
 const HEIGHT: usize = 112;
@@ -31,7 +38,7 @@ pub enum ColorMode {
     Pink,
 }
 
-#[allow(clippy::len_without_is_empty, clippy::new_without_default)]
+#[expect(clippy::len_without_is_empty, clippy::new_without_default)]
 #[wasm_bindgen]
 impl Fire {
     #[wasm_bindgen(constructor)]
@@ -45,20 +52,20 @@ impl Fire {
         Self {
             data,
             texture,
-            rng: SmallRng::from_entropy(),
+            rng: SmallRng::from_os_rng(),
         }
     }
 
     pub fn tick(&mut self, spread_factor: f64, height_factor: f64, color: ColorMode) {
         for row in 1..HEIGHT {
             for col in 0..WIDTH {
-                let spread_rand = if self.rng.gen_bool(spread_factor) {
+                let spread_rand = if self.rng.random_bool(spread_factor) {
                     *[0_usize, 2, 3].choose(&mut self.rng).unwrap_or(&1)
                 } else {
                     1
                 };
 
-                let decrease_rand = if self.rng.gen_bool(height_factor) {
+                let decrease_rand = if self.rng.random_bool(height_factor) {
                     1
                 } else {
                     0
