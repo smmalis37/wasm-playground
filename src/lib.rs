@@ -1,7 +1,13 @@
 #![no_std]
 
+extern crate alloc;
+
+use alloc::rc::Rc;
+use core::cell::Cell;
+
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
+use web_sys::*;
 
 mod color_scale;
 use color_scale::*;
@@ -25,6 +31,9 @@ pub struct Fire {
     data: [u8; LEN],
     texture: [Pixel; LEN],
     rng: SmallRng,
+
+    height: Rc<Cell<f64>>,
+    spread: Rc<Cell<f64>>,
 }
 
 const _: () = {
@@ -53,23 +62,53 @@ impl Fire {
         let mut texture = [FIRE_PROGRESS[0]; LEN];
         texture[LEN - WIDTH..].fill(*FIRE_PROGRESS.last().unwrap());
 
+        let window = web_sys::window().unwrap();
+        let document = window.document().unwrap();
+
+        let height = Rc::new(Cell::new(0.0));
+        let height_elem: HtmlInputElement = document
+            .get_element_by_id("height_param")
+            .unwrap()
+            .dyn_into()
+            .unwrap();
+        let height_event = height.clone();
+        let height_elem_event = height_elem.clone();
+        let height_closure =
+            Closure::<dyn Fn()>::new(move || height_event.set(height_elem_event.value_as_number()));
+        height_elem.set_oninput(Some(height_closure.as_ref().unchecked_ref()));
+
+        let spread = Rc::new(Cell::new(0.0));
+        let spread_elem: HtmlInputElement = document
+            .get_element_by_id("spread_param")
+            .unwrap()
+            .dyn_into()
+            .unwrap();
+        let spread_event = spread.clone();
+        let spread_elem_event = spread_elem.clone();
+        let spread_closure =
+            Closure::<dyn Fn()>::new(move || spread_event.set(spread_elem_event.value_as_number()));
+        spread_elem.set_oninput(Some(spread_closure.as_ref().unchecked_ref()));
+
         Self {
             data,
             texture,
             rng: SmallRng::from_os_rng(),
+
+            height,
+            spread,
         }
     }
 
-    pub fn tick(&mut self, spread_factor: f64, height_factor: f64, color: ColorMode) {
+    pub fn tick(&mut self, color: ColorMode) {
         for row in 1..HEIGHT {
             for col in 0..WIDTH {
-                let spread_rand = if self.rng.random_bool(spread_factor) {
+                let spread_rand = if self.rng.random_bool(self.spread.get()) {
                     *[0_usize, 2, 3].choose(&mut self.rng).unwrap_or(&1)
                 } else {
                     1
                 };
 
-                let decrease_rand = if self.rng.random_bool(height_factor) {
+                let decrease_rand = if self.rng.random_bool(self.height.get()) {
                     1
                 } else {
                     0

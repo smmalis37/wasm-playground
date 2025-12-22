@@ -8,10 +8,16 @@ crate-type = ["cdylib"]
 
 [dependencies]
 lol_alloc = "0.4"
+web-sys = { version = "0.3", default-features = false, features = [
+    "Document",
+    "Element",
+    "HtmlInputElement",
+    "Window",
+] }
 wasm-bindgen = { version = "0.2", default-features = false }
 rand = { version = "0.9", default-features = false, features = [
-    "small_rng",
     "os_rng",
+    "small_rng",
 ] }
 getrandom = { version = "0.3", default-features = false, features = [
     "wasm_js",
