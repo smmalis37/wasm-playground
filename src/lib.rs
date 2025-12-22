@@ -128,10 +128,6 @@ impl Fire {
             }
         }
 
-        self.compute_texture(color);
-    }
-
-    fn compute_texture(&mut self, color: ColorMode) {
         for i in 0..LEN {
             let mut val = FIRE_PROGRESS[self.data[i] as usize];
 
