@@ -7,7 +7,6 @@ use core::cell::Cell;
 
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
-use web_sys::*;
 
 mod color_scale;
 use color_scale::*;
@@ -65,39 +64,25 @@ impl Fire {
         let window = web_sys::window().unwrap();
         let document = window.document().unwrap();
 
-        let height_elem: HtmlInputElement = document
-            .get_element_by_id("height_param")
-            .unwrap()
-            .dyn_into()
-            .unwrap();
-        let height = Rc::new(Cell::new(height_elem.value_as_number()));
-        let height_event = height.clone();
-        let height_elem_event = height_elem.clone();
-        let height_closure =
-            Closure::<dyn Fn()>::new(move || height_event.set(height_elem_event.value_as_number()))
+        let config_slider = |id| {
+            let elem: web_sys::HtmlInputElement =
+                document.get_element_by_id(id).unwrap().dyn_into().unwrap();
+            let cell = Rc::new(Cell::new(elem.value_as_number()));
+            let event = cell.clone();
+            let elem_event = elem.clone();
+            let closure = Closure::<dyn Fn()>::new(move || event.set(elem_event.value_as_number()))
                 .into_js_value();
-        height_elem.set_oninput(Some(height_closure.as_ref().unchecked_ref()));
-
-        let spread_elem: HtmlInputElement = document
-            .get_element_by_id("spread_param")
-            .unwrap()
-            .dyn_into()
-            .unwrap();
-        let spread = Rc::new(Cell::new(spread_elem.value_as_number()));
-        let spread_event = spread.clone();
-        let spread_elem_event = spread_elem.clone();
-        let spread_closure =
-            Closure::<dyn Fn()>::new(move || spread_event.set(spread_elem_event.value_as_number()))
-                .into_js_value();
-        spread_elem.set_oninput(Some(spread_closure.as_ref().unchecked_ref()));
+            elem.set_oninput(Some(closure.as_ref().unchecked_ref()));
+            cell
+        };
 
         Self {
             data,
             texture,
             rng: SmallRng::from_os_rng(),
 
-            height,
-            spread,
+            height: config_slider("height_param"),
+            spread: config_slider("spread_param"),
         }
     }
 
