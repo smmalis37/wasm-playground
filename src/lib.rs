@@ -75,7 +75,9 @@ impl Fire {
         let height_elem_event = height_elem.clone();
         let height_closure =
             Closure::<dyn Fn()>::new(move || height_event.set(height_elem_event.value_as_number()));
-        height_elem.set_oninput(Some(height_closure.as_ref().unchecked_ref()));
+        height_elem.set_oninput(Some(
+            height_closure.into_js_value().as_ref().unchecked_ref(),
+        ));
 
         let spread = Rc::new(Cell::new(0.0));
         let spread_elem: HtmlInputElement = document
@@ -87,7 +89,9 @@ impl Fire {
         let spread_elem_event = spread_elem.clone();
         let spread_closure =
             Closure::<dyn Fn()>::new(move || spread_event.set(spread_elem_event.value_as_number()));
-        spread_elem.set_oninput(Some(spread_closure.as_ref().unchecked_ref()));
+        spread_elem.set_oninput(Some(
+            spread_closure.into_js_value().as_ref().unchecked_ref(),
+        ));
 
         Self {
             data,
