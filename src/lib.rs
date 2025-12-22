@@ -65,12 +65,12 @@ impl Fire {
         let window = web_sys::window().unwrap();
         let document = window.document().unwrap();
 
-        let height = Rc::new(Cell::new(0.0));
         let height_elem: HtmlInputElement = document
             .get_element_by_id("height_param")
             .unwrap()
             .dyn_into()
             .unwrap();
+        let height = Rc::new(Cell::new(height_elem.value_as_number()));
         let height_event = height.clone();
         let height_elem_event = height_elem.clone();
         let height_closure =
@@ -79,12 +79,12 @@ impl Fire {
             height_closure.into_js_value().as_ref().unchecked_ref(),
         ));
 
-        let spread = Rc::new(Cell::new(0.0));
         let spread_elem: HtmlInputElement = document
             .get_element_by_id("spread_param")
             .unwrap()
             .dyn_into()
             .unwrap();
+        let spread = Rc::new(Cell::new(spread_elem.value_as_number()));
         let spread_event = spread.clone();
         let spread_elem_event = spread_elem.clone();
         let spread_closure =
