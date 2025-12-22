@@ -18,13 +18,13 @@ jobs:
       run: cargo install wasm-pack
 
     - name: Build
-      run: wasm-pack build --target web --release --no-typescript
+      run: wasm-pack build --target web --release --no-typescript --no-pack
 
     - name: Copy static content
       run: cp -v ./www/* ./pkg/
 
     - name: Delete unneeded files
-      run: cd pkg && rm -v .gitignore package.json README.md
+      run: cd pkg && rm -v .gitignore README.md
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
