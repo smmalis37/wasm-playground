@@ -74,10 +74,9 @@ impl Fire {
         let height_event = height.clone();
         let height_elem_event = height_elem.clone();
         let height_closure =
-            Closure::<dyn Fn()>::new(move || height_event.set(height_elem_event.value_as_number()));
-        height_elem.set_oninput(Some(
-            height_closure.into_js_value().as_ref().unchecked_ref(),
-        ));
+            Closure::<dyn Fn()>::new(move || height_event.set(height_elem_event.value_as_number()))
+                .into_js_value();
+        height_elem.set_oninput(Some(height_closure.as_ref().unchecked_ref()));
 
         let spread_elem: HtmlInputElement = document
             .get_element_by_id("spread_param")
@@ -88,10 +87,9 @@ impl Fire {
         let spread_event = spread.clone();
         let spread_elem_event = spread_elem.clone();
         let spread_closure =
-            Closure::<dyn Fn()>::new(move || spread_event.set(spread_elem_event.value_as_number()));
-        spread_elem.set_oninput(Some(
-            spread_closure.into_js_value().as_ref().unchecked_ref(),
-        ));
+            Closure::<dyn Fn()>::new(move || spread_event.set(spread_elem_event.value_as_number()))
+                .into_js_value();
+        spread_elem.set_oninput(Some(spread_closure.as_ref().unchecked_ref()));
 
         Self {
             data,
